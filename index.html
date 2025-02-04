@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Codeur - Hacking Theme</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: black;
+            color: #00FF00;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #00FF00;
+        }
+        textarea, input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            font-size: 18px;
+        }
+        textarea {
+            height: 150px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #00FF00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #33FF33;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Coder un Message</h1>
+        <textarea id="messageInput" placeholder="Entrez votre message ici..."></textarea>
+        <button onclick="coderMessage()">Coder le message</button>
+        <input type="text" id="encodedMessage" readonly placeholder="Message codé apparaît ici...">
+        <button onclick="copierMessage()">Copier le message codé</button>
+    </div>
+
+    <script>
+        // Fonction pour coder le message
+        function coderMessage() {
+            var message = document.getElementById("messageInput").value;
+            var encodedMessage = '';
+
+            // Parcours chaque caractère du message
+            for (var i = 0; i < message.length; i++) {
+                var char = message[i].toUpperCase(); // Convertir en majuscule
+                if (char >= 'A' && char <= 'Z') {
+                    // Calculer la position de la lettre dans l'alphabet (A=1, B=2, ..., Z=26)
+                    encodedMessage += (char.charCodeAt(0) - 64) + " "; // A=1, B=2, etc.
+                } else if (char === ' ') {
+                    encodedMessage += "   "; // Ajouter un espace pour séparer les mots
+                }
+            }
+
+            // Afficher le message codé dans le champ de texte
+            document.getElementById("encodedMessage").value = encodedMessage.trim();
+        }
+
+        // Fonction pour copier le message codé dans le presse-papier
+        function copierMessage() {
+            var encodedMessageField = document.getElementById("encodedMessage");
+
+            // Sélectionner le texte dans le champ de texte
+            encodedMessageField.select();
+            encodedMessageField.setSelectionRange(0, 99999); // Pour mobile
+
+            // Copier le texte sélectionné dans le presse-papier
+            document.execCommand("copy");
+
+            // Alerter l'utilisateur que le message a été copié
+            alert("Message codé copié dans le presse-papier !");
+        }
+    </script>
+
+</body>
+</html>
